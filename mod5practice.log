@@ -1,0 +1,105 @@
+mysql> DROP TABLE IF EXISTS ShowsFlat;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> CREATE TABLE ShowsFlat (
+    ->     ScheduleID INT PRIMARY KEY,
+    ->     HostName VARCHAR(100),
+    ->     HostEmail VARCHAR(100),
+    ->     Show1Title VARCHAR(150),
+    ->     Show1TimeSlot VARCHAR(50),
+    ->     Show2Title VARCHAR(150),
+    ->     Show2TimeSlot VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO ShowsFlat VALUES
+    -> (1, 'Jordan Betancourt', 'jordan.b@example.com', 'Morning Mix', 'Mon 7am', 'Vinyl Vault', 'Wed 9pm'),
+    -> (2, 'Riley Nakamura', 'riley.n@example.com', 'Indie Hour', 'Tue 6pm', NULL, NULL),
+    -> (3, 'Jordan Betancourt', 'jordan.b@example.com', 'Sunday Jazz', 'Sun 10am', 'Late Night Blues', 'Fri 11pm');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM ShowsFlat;
++------------+-------------------+----------------------+-------------+---------------+------------------+---------------+
+| ScheduleID | HostName          | HostEmail            | Show1Title  | Show1TimeSlot | Show2Title       | Show2TimeSlot |
++------------+-------------------+----------------------+-------------+---------------+------------------+---------------+
+|          1 | Jordan Betancourt | jordan.b@example.com | Morning Mix | Mon 7am       | Vinyl Vault      | Wed 9pm       |
+|          2 | Riley Nakamura    | riley.n@example.com  | Indie Hour  | Tue 6pm       | NULL             | NULL          |
+|          3 | Jordan Betancourt | jordan.b@example.com | Sunday Jazz | Sun 10am      | Late Night Blues | Fri 11pm      |
++------------+-------------------+----------------------+-------------+---------------+------------------+---------------+
+3 rows in set (0.00 sec)
+
+mysql> DROP TABLE IF EXISTS Shows1NF;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> 
+mysql> CREATE TABLE Shows1NF (
+    ->     ScheduleID INT,
+    ->     HostName VARCHAR(100),
+    ->     HostEmail VARCHAR(100),
+    ->     ShowTitle VARCHAR(150),
+    ->     ShowTimeSlot VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO Shows1NF VALUES
+    -> (1, 'Jordan Betancourt', 'jordan.b@example.com', 'Morning Mix', 'Mon 7am'),
+    -> (1, 'Jordan Betancourt', 'jordan.b@example.com', 'Vinyl Vault', 'Wed 9pm'),
+    -> (2, 'Riley Nakamura', 'riley.n@example.com', 'Indie Hour', 'Tue 6pm'),
+    -> (3, 'Jordan Betancourt', 'jordan.b@example.com', 'Sunday Jazz', 'Sun 10am'),
+    -> (3, 'Jordan Betancourt', 'jordan.b@example.com', 'Late Night Blues', 'Fri 11pm');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> DROP TABLE IF EXISTS Hosts2NF;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> 
+mysql> CREATE TABLE Hosts2NF (
+    ->     HostID INT AUTO_INCREMENT PRIMARY KEY,
+    ->     HostName VARCHAR(100),
+    ->     HostEmail VARCHAR(100)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO Hosts2NF (HostName, HostEmail) VALUES
+    -> ('Jordan Betancourt', 'jordan.b@example.com'),
+    -> ('Riley Nakamura', 'riley.n@example.com');
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> DROP TABLE IF EXISTS ShowAssignments2NF;
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+mysql> 
+mysql> CREATE TABLE ShowAssignments2NF (
+    ->     AssignmentID INT AUTO_INCREMENT PRIMARY KEY,
+    ->     HostID INT,
+    ->     ShowTitle VARCHAR(150),
+    ->     ShowTimeSlot VARCHAR(50),
+    ->     FOREIGN KEY (HostID) REFERENCES Hosts2NF(HostID)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> INSERT INTO ShowAssignments2NF (HostID, ShowTitle, ShowTimeSlot) VALUES
+    -> (1, 'Morning Mix', 'Mon 7am'),
+    -> (1, 'Vinyl Vault', 'Wed 9pm'),
+    -> (2, 'Indie Hour', 'Tue 6pm'),
+    -> (1, 'Sunday Jazz', 'Sun 10am'),
+    -> (1, 'Late Night Blues', 'Fri 11pm');
+Query OK, 5 rows affected (0.00 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM ShowAssignments2NF;
++--------------+--------+------------------+--------------+
+| AssignmentID | HostID | ShowTitle        | ShowTimeSlot |
++--------------+--------+------------------+--------------+
+|            1 |      1 | Morning Mix      | Mon 7am      |
+|            2 |      1 | Vinyl Vault      | Wed 9pm      |
+|            3 |      2 | Indie Hour       | Tue 6pm      |
+|            4 |      1 | Sunday Jazz      | Sun 10am     |
+|            5 |      1 | Late Night Blues | Fri 11pm     |
++--------------+--------+------------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> notee;
