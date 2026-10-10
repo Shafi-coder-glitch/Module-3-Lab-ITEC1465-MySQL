@@ -103,3 +103,35 @@ mysql> SELECT * FROM ShowAssignments2NF;
 5 rows in set (0.00 sec)
 
 mysql> notee;
+mysql> SELECT Hosts2NF.HostName, ShowAssignments2NF.ShowTitle, ShowAssignments2NF.ShowTimeSlot
+    -> FROM Hosts2NF
+    -> INNER JOIN ShowAssignments2NF
+    -> ON Hosts2NF.HostID = ShowAssignments2NF.HostID;
++-------------------+------------------+--------------+
+| HostName          | ShowTitle        | ShowTimeSlot |
++-------------------+------------------+--------------+
+| Jordan Betancourt | Morning Mix      | Mon 7am      |
+| Jordan Betancourt | Vinyl Vault      | Wed 9pm      |
+| Riley Nakamura    | Indie Hour       | Tue 6pm      |
+| Jordan Betancourt | Sunday Jazz      | Sun 10am     |
+| Jordan Betancourt | Late Night Blues | Fri 11pm     |
++-------------------+------------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> notee;
+mysql> SELECT Hosts2NF.HostName, ShowAssignments2NF.ShowTitle, ShowAssignments2NF.ShowTimeSlot
+    -> FROM Hosts2NF
+    -> INNER JOIN ShowAssignments2NF
+    -> ON Hosts2NF.HostID = ShowAssignments2NF.HostID;
++-------------------+------------------+--------------+
+| HostName          | ShowTitle        | ShowTimeSlot |
++-------------------+------------------+--------------+
+| Jordan Betancourt | Morning Mix      | Mon 7am      |
+| Jordan Betancourt | Vinyl Vault      | Wed 9pm      |
+| Riley Nakamura    | Indie Hour       | Tue 6pm      |
+| Jordan Betancourt | Sunday Jazz      | Sun 10am     |
+| Jordan Betancourt | Late Night Blues | Fri 11pm     |
++-------------------+------------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> notee;
