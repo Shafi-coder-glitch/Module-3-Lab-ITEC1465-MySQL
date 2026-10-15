@@ -1,0 +1,144 @@
+mysql> source Module7_setup.sql;
+mysql> USE foghorn;
+ERROR 1049 (42000): Unknown database 'foghorn'
+mysql> SHOW TABLES;
+ERROR 1046 (3D000): No database selected
+mysql> exit
+mysql> source Module7_setup.sql;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Database changed
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.03 sec)
+
+Query OK, 0 rows affected (0.03 sec)
+
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> USE foghorn;
+Database changed
+mysql> SHOW TABLES;
++-------------------+
+| Tables_in_foghorn |
++-------------------+
+| Customer          |
+| SupportTicket     |
++-------------------+
+2 rows in set (0.00 sec)
+
+mysql> CREATE USER 'ticket_viewer'@'localhost' IDENTIFIED BY 'ITEC1465database';
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> SHOW GRANTS FOR 'ticket_viewer'@'localhost';
++---------------------------------------------------+
+| Grants for ticket_viewer@localhost                |
++---------------------------------------------------+
+| GRANT USAGE ON *.* TO `ticket_viewer`@`localhost` |
++---------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> GRANT SELECT ON foghorn.* TO 'ticket_viewer'@'localhost';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SHOW GRANTS FOR 'ticket_viewer'@'localhost';
++------------------------------------------------------------+
+| Grants for ticket_viewer@localhost                         |
++------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `ticket_viewer`@`localhost`          |
+| GRANT SELECT ON `foghorn`.* TO `ticket_viewer`@`localhost` |
++------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> REVOKE SELECT ON foghorn.* FROM 'ticket_viewer'@'localhost';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SHOW GRANTS FOR 'ticket_viewer'@'localhost';
++---------------------------------------------------+
+| Grants for ticket_viewer@localhost                |
++---------------------------------------------------+
+| GRANT USAGE ON *.* TO `ticket_viewer`@`localhost` |
++---------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> CREATE USER 'support_agent'@'localhost' IDENTIFIED BY 'ITEC1465database';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> GRANT SELECT ON foghorn.* TO 'support_agent'@'localhost';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> GRANT INSERT ON foghorn.* TO 'support_agent'@'localhost';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> GRANT UPDATE ON foghorn.* TO 'support_agent'@'localhost';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SHOW GRANTS FOR 'support_agent'@'localhost';
++----------------------------------------------------------------------------+
+| Grants for support_agent@localhost                                         |
++----------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `support_agent`@`localhost`                          |
+| GRANT SELECT, INSERT, UPDATE ON `foghorn`.* TO `support_agent`@`localhost` |
++----------------------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> DROP USER 'ticket_viewer'@'localhost';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SHOW GRANTS FOR 'ticket_viewer'@'localhost';
+ERROR 1141 (42000): There is no such grant defined for user 'ticket_viewer' on host 'localhost'
+mysql> SELECT User, Host, account_locked FROM mysql.user;
++------------------+-----------+----------------+
+| User             | Host      | account_locked |
++------------------+-----------+----------------+
+| debian-sys-maint | localhost | N              |
+| mysql.infoschema | localhost | Y              |
+| mysql.session    | localhost | Y              |
+| mysql.sys        | localhost | Y              |
+| root             | localhost | N              |
+| support_agent    | localhost | N              |
++------------------+-----------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> CREATE USER 'night_shift'@'localhost' IDENTIFIED BY 'ITEC1465database';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> ALTER USER 'night_shift'@'localhost' IDENTIFIED BY 'ITEC1465newpassword';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> ALTER USER 'night_shift'@'localhost' ACCOUNT LOCK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT User, Host, account_locked FROM mysql.user WHERE User = 'night_shift';
++-------------+-----------+----------------+
+| User        | Host      | account_locked |
++-------------+-----------+----------------+
+| night_shift | localhost | Y              |
++-------------+-----------+----------------+
+1 row in set (0.00 sec)
+
+mysql> ALTER USER 'night_shift'@'localhost' ACCOUNT UNLOCK;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SELECT User, Host, account_locked FROM mysql.user WHERE User = 'night_shift';
++-------------+-----------+----------------+
+| User        | Host      | account_locked |
++-------------+-----------+----------------+
+| night_shift | localhost | N              |
++-------------+-----------+----------------+
+1 row in set (0.00 sec)
+
+mysql> DROP USER 'night_shift'@'localhost';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SHOW GRANTS FOR 'night_shift'@'localhost';
+ERROR 1141 (42000): There is no such grant defined for user 'night_shift' on host 'localhost'
+mysql> notee;
