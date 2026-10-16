@@ -1,0 +1,70 @@
+mysql> source Module8_setup.sql;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Database changed
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.03 sec)
+
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> USE nebula_books;
+Database changed
+mysql> SELECT * FROM Book;
++--------+-------------+----------------+---------------+-------+
+| BookID | Title       | Author         | YearPublished | Price |
++--------+-------------+----------------+---------------+-------+
+|      1 | Dune        | Frank Herbert  |          1965 | 12.99 |
+|      2 | I, Robot    | Isaac Asimov   |          1950 | 10.99 |
+|      3 | Neuromancer | William Gibson |          1984 | 11.99 |
++--------+-------------+----------------+---------------+-------+
+3 rows in set (0.00 sec)
+
+mysql> exit
+mysql> notee;
+mysql> DROP TABLE Book;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> SHOW TABLES;
+Empty set (0.00 sec)
+
+mysql> notee;
+mysql> SELECT * FROM Book;
++--------+-------------+----------------+---------------+-------+
+| BookID | Title       | Author         | YearPublished | Price |
++--------+-------------+----------------+---------------+-------+
+|      1 | Dune        | Frank Herbert  |          1965 | 12.99 |
+|      2 | I, Robot    | Isaac Asimov   |          1950 | 10.99 |
+|      3 | Neuromancer | William Gibson |          1984 | 11.99 |
++--------+-------------+----------------+---------------+-------+
+3 rows in set (0.00 sec)
+
+mysql> CHECK TABLE Book;
++-------------------+-------+----------+----------+
+| Table             | Op    | Msg_type | Msg_text |
++-------------------+-------+----------+----------+
+| nebula_books.Book | check | status   | OK       |
++-------------------+-------+----------+----------+
+1 row in set (0.00 sec)
+
+mysql> ANALYZE TABLE Book;
++-------------------+---------+----------+----------+
+| Table             | Op      | Msg_type | Msg_text |
++-------------------+---------+----------+----------+
+| nebula_books.Book | analyze | status   | OK       |
++-------------------+---------+----------+----------+
+1 row in set (0.01 sec)
+
+mysql> OPTIMIZE TABLE Book;
++-------------------+----------+----------+-------------------------------------------------------------------+
+| Table             | Op       | Msg_type | Msg_text                                                          |
++-------------------+----------+----------+-------------------------------------------------------------------+
+| nebula_books.Book | optimize | note     | Table does not support optimize, doing recreate + analyze instead |
+| nebula_books.Book | optimize | status   | OK                                                                |
++-------------------+----------+----------+-------------------------------------------------------------------+
+2 rows in set (0.07 sec)
+
+mysql> notee;
